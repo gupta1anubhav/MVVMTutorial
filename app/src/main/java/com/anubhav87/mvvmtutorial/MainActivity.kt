@@ -14,17 +14,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.anubhav87.mvvmtutorial.db.entity.Note
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    val ADD_NOTE_REQUEST = 1
+    private val ADD_NOTE_REQUEST = 1
     private lateinit var noteViewModel: NoteViewModel
     private val adapter = NoteAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        buttonAddNote.setOnClickListener {
+            startActivityForResult(
+                Intent(this, AddNoteActivity::class.java),
+                ADD_NOTE_REQUEST
+            )
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter

@@ -24,9 +24,10 @@ abstract class NoteDatabase : RoomDatabase() {
                 synchronized(NoteDatabase::class) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        NoteDatabase::class.java, "note_database"
+                        NoteDatabase::class.java, "notes_database"
                     )
                         .fallbackToDestructiveMigration()
+                        .addCallback(roomCallback)
                         .build()
                 }
             }
@@ -50,7 +51,6 @@ abstract class NoteDatabase : RoomDatabase() {
         private val noteDao = db?.noteDao()
 
         override fun doInBackground(vararg p0: Unit?) {
-            noteDao?.deleteAllNotes()
             noteDao?.insert(Note("Title 1", "description 1"))
             noteDao?.insert(Note("Title 2", "description 2"))
             noteDao?.insert(Note("Title 3", "description 3"))

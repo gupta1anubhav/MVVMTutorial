@@ -44,8 +44,7 @@ class NoteRepository(application: Application) {
     }
 
 
-    private class DeleteAllNotesAsyncTask(noteDao: NoteDao) : AsyncTask<Unit, Unit, Unit>() {
-        val noteDao = noteDao
+    private class DeleteAllNotesAsyncTask(val noteDao: NoteDao) : AsyncTask<Unit, Unit, Unit>() {
 
         override fun doInBackground(vararg p0: Unit?) {
             noteDao.deleteAllNotes()

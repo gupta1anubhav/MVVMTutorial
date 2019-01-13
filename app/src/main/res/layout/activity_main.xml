@@ -14,7 +14,7 @@
             tools:listitem="@layout/note_item"
             tools:itemCount="5"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
             android:id="@+id/buttonAddNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
