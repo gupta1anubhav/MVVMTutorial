@@ -22,7 +22,7 @@ abstract class NoteDatabase : RoomDatabase() {
                 synchronized(NoteDatabase::class) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        NoteDatabase::class.java, "note_database"
+                        NoteDatabase::class.java, "notes_database"
                     )
                         .fallbackToDestructiveMigration()
                         .build()
