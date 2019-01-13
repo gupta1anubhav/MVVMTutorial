@@ -1,4 +1,4 @@
-package com.anubhav87.mvvmtutorial
+package com.anubhav87.mvvmtutorial.activities
 
 import android.app.Activity
 import android.arch.lifecycle.Observer
@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.anubhav87.mvvmtutorial.R
 import com.anubhav87.mvvmtutorial.db.entity.Note
 import kotlinx.android.synthetic.main.activity_main.*
 

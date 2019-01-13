@@ -1,4 +1,4 @@
-package com.anubhav87.mvvmtutorial
+package com.anubhav87.mvvmtutorial.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.anubhav87.mvvmtutorial.R
 import kotlinx.android.synthetic.main.activity_add_note.*
 
 class AddNoteActivity : AppCompatActivity() {
