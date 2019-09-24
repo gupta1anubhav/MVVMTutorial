@@ -2,43 +2,55 @@ package com.anubhav87.mvvmtutorial.activities
 
 import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import com.anubhav87.mvvmtutorial.viewmodel.NoteViewModel
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import com.anubhav87.mvvmtutorial.adapter.NoteAdapter
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.anubhav87.mvvmtutorial.R
+import com.anubhav87.mvvmtutorial.adapter.NoteAdapter
 import com.anubhav87.mvvmtutorial.db.entity.Note
+import com.anubhav87.mvvmtutorial.viewmodel.NoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
-    private val ADD_NOTE_REQUEST = 1
-    private lateinit var noteViewModel: NoteViewModel
-    private val adapter = NoteAdapter()
+
+    private val noteViewModel: NoteViewModel by inject()
+    private val adapter: NoteAdapter by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
+        setupButtonAddNote()
+        setupRecyclerView()
+
+        noteViewModel.getAllNotes().observe(this,
+            Observer<List<Note>> { list ->
+                list?.let {
+                    adapter.setNotes(it)
+                }
+            })
+    }
+
+    private fun setupButtonAddNote() {
         buttonAddNote.setOnClickListener {
             startActivityForResult(
                 Intent(this, AddNoteActivity::class.java),
                 ADD_NOTE_REQUEST
             )
         }
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
-        noteViewModel.getAllNotes().observe(this,
-            Observer<List<Note>> { t -> adapter.setNotes(t!!) })
     }
+
+    private fun setupRecyclerView() {
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
+        recycler_view.adapter = adapter
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
@@ -60,9 +72,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             val newNote = Note(
-                data!!.getStringExtra(AddNoteActivity.EXTRA_TITLE),
+                data.getStringExtra(AddNoteActivity.EXTRA_TITLE),
                 data.getStringExtra(AddNoteActivity.EXTRA_DESCRIPTION)
             )
             noteViewModel.insert(newNote)
@@ -71,7 +83,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Note not saved!", Toast.LENGTH_SHORT).show()
         }
+    }
 
-
+    companion object{
+        private const val ADD_NOTE_REQUEST = 1
     }
 }

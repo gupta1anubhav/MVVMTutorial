@@ -21,6 +21,6 @@
             android:src="@drawable/ic_add"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:layout_gravity="bottom|right"/>
+            android:layout_gravity="bottom|end"/>
 
 </android.support.design.widget.CoordinatorLayout>
