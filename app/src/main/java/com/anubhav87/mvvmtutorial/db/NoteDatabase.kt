@@ -19,7 +19,7 @@ abstract class NoteDatabase : RoomDatabase() {
     companion object {
         private var instance: NoteDatabase? = null
 
-        fun getInstance(context: Context): NoteDatabase? {
+        fun getInstance(context: Context): NoteDatabase {
             if (instance == null) {
                 synchronized(NoteDatabase::class) {
                     instance = Room.databaseBuilder(
@@ -31,7 +31,7 @@ abstract class NoteDatabase : RoomDatabase() {
                         .build()
                 }
             }
-            return instance
+            return instance!!
         }
 
         fun destroyInstance() {

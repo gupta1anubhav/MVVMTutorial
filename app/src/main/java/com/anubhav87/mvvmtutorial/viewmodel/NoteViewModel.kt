@@ -1,16 +1,12 @@
 package com.anubhav87.mvvmtutorial.viewmodel
 
-import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import com.anubhav87.mvvmtutorial.NoteRepository
+import android.arch.lifecycle.ViewModel
 import com.anubhav87.mvvmtutorial.db.entity.Note
+import com.anubhav87.mvvmtutorial.repository.NoteRepository
 
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
-
-    private var repository: NoteRepository =
-        NoteRepository(application)
+class NoteViewModel(private var repository: NoteRepository) : ViewModel() {
 
     private var allNotes: LiveData<List<Note>> = repository.getAllNotes()
 
